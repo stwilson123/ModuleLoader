@@ -1,0 +1,42 @@
+{
+  "name": "module-loader",
+  "version": "1.0.0",
+  "description": "Modular, loose couplings framework.",
+  "main": "index.js",
+  "scripts": {
+    "dev:esm": "rollup -w -c scripts/config.js --environment TARGET:web-runtime-esm",
+    "dev:esmMin": "rollup -w -c scripts/config.js --environment TARGET:web-full-esm-browser-prod"
+
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stwilson123/module-loader.git"
+  },
+  "keywords": [
+    "blocks",
+    "module"
+  ],
+  "author": "stwilson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stwilson123/module-loader/issues"
+  },
+  "homepage": "https://github.com/stwilson123/module-loader#readme",
+  "dependencies": {
+    "inversify": "^5.0.1",
+    "reflect-metadata": "^0.1.13",
+    "vue-property-decorator": "^8.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "rollup": "^1.27.0",
+    "rollup-plugin-alias": "^2.2.0",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-buble": "^0.19.8",
+    "rollup-plugin-flow-no-whitespace": "^1.0.0",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-typescript2": "^0.25.2",
+    "typescript": "^3.7.2"
+  }
+}
