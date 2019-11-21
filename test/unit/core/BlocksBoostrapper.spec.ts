@@ -22,10 +22,10 @@ describe("bootstraptest", () => {
 
         // expect(shell.moduleMapTypes.get).be.instanceOf(module1);
         let moduleMapTypes = [...shell.moduleMapTypes.keys()]
-        debugger
-
+   
         for (const registerModule of moduleMapTypes) {
             if (registerModule === module1) {
+                debugger
                 expect(registerModule).be.equal(module1);
                 continue;
             }
@@ -45,7 +45,7 @@ describe("bootstraptest", () => {
 
         expect(module1Obj).to.not.null;
         expect(module1Obj).to.has.property("moduleName","module1")
-
+       
         expect(module2Obj).to.not.null;
         expect(module2Obj).to.has.property("moduleName","module2")
 

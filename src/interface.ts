@@ -233,6 +233,6 @@ function asyncCompatible() {
 }
 export {
     startupModule, IDependency, IShell, IRouteProvider, ITemplateProvider, Types, IBlocksShell,
-    inject, BlocksModule, Controller, Component, RouteResult, TemplateResult, globalIocManager, IBootstrapper, IocManager,
+    inject,injectable, BlocksModule, Controller, Component, RouteResult, TemplateResult, globalIocManager, IBootstrapper, IocManager,
     asyncCompatible
 }
