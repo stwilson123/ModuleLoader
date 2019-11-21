@@ -1,7 +1,7 @@
 import { BootstrapperOptions } from './bootstrapper-options'
 import { Container, injectable, decorate, inject } from "inversify";
 import { IocManager,BlocksModule, Types, IDependency, IBootstrapper,IBlocksShell   } from './interface';
-import { BlocksShell } from "./shell"
+import { BlocksShell } from "./Shell"
 class BlocksBoostrapper<T extends BlocksModule> extends IBootstrapper
 {
     //temp 

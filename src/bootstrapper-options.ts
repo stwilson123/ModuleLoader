@@ -1,5 +1,4 @@
 
-import { Container } from "inversify";
 import { IocManager } from "./interface";
 
 export class BootstrapperOptions

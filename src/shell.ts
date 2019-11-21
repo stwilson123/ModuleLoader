@@ -1,7 +1,6 @@
 import { IBlocksShell, Types, IDependency, BlocksModule, IocManager } from "./interface"
 import { Container, injectable, decorate, inject } from "inversify";
 import { RouteStartupModule } from "./routes/routeStartupModule"
-import { Component, Prop, Vue } from 'vue-property-decorator';
 export class BlocksShell implements IBlocksShell {
     public pluginSource: any[] = [];
     public types: any[];
@@ -9,6 +8,7 @@ export class BlocksShell implements IBlocksShell {
     typeMapFileName: Map<any, [boolean, string]>;
     public moduleMapTypes: Map<any, any[]>;
     iocManager: IocManager;
+    blocksModules:BlocksModule[];
     constructor(
         @inject(IocManager) iocManager: IocManager) {
         this.iocManager = iocManager;
@@ -16,8 +16,12 @@ export class BlocksShell implements IBlocksShell {
         this.typeMapModuleName = new Map<any, string>();
         this.moduleMapTypes = new Map<any, any[]>();
         this.typeMapFileName = new Map<any, [boolean, string]>();
+        this.blocksModules = [];
     }
-
+    get BlocksModules():BlocksModule[]
+    {
+        return this.blocksModules;
+    }
 
     public initialize() {
         for (let filesArray of this.getTypeFromFiles()) {
@@ -27,7 +31,7 @@ export class BlocksShell implements IBlocksShell {
 
 
         let startupModules = this.iocManager.getAll(BlocksModule);
-
+        this.blocksModules = startupModules;
         //
         let temp = new Map<string, []>();
         for (let module of startupModules) {
@@ -55,14 +59,14 @@ export class BlocksShell implements IBlocksShell {
             });
         });
 
-        for (const module of startupModules) {
-            if (!this.moduleMapTypes.has(module.constructor))
+        for (const startupModule of startupModules) {
+            if (!this.moduleMapTypes.has(startupModule.constructor))
                 continue;
-            let moduleType = this.moduleMapTypes.get(module.constructor);
+            let moduleType = this.moduleMapTypes.get(startupModule.constructor);
             if (!moduleType)
                 continue;
             for (const type of moduleType) {
-                this.typeMapModuleName.set(type, module.moduleName);
+                this.typeMapModuleName.set(type, startupModule.moduleName);
             }
         }
 

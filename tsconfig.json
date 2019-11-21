@@ -14,14 +14,12 @@
     "baseUrl": ".",
     "allowJs": true,
     "types": [
-     
       "reflect-metadata"
     ],
     "paths": {
       "@/*": [
         "src/*"
       ],
-       
     },
     "lib": [
       "esnext",

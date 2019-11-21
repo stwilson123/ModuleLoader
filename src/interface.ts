@@ -2,35 +2,39 @@ import { injectable, inject } from "inversify"
 import { IocManager } from "./ioc/iocManager";
 import { Component, Vue, Watch } from 'vue-property-decorator';
 
-let _win:any = window;
-let globalIocManager = _win["globalIocManager"] || new IocManager();
+let _win: any = window;
+let globalIocManager: IocManager = _win["globalIocManager"] || new IocManager();
 _win["globalIocManager"] = globalIocManager;
 @injectable()
 class IDependency {
 
 }
 
-class IBlocksShell{
+class IBlocksShell {
     pluginSource?: any[];
-    initialize():void 
-    {
+    initialize(): void {
+        throw new Error("initialize is not implemented. ")
 
+    }
+    types: any[] = [];
+    typeMapModuleName: Map<any, string> = new  Map<any, string>();
+    moduleMapTypes: Map<any, any[]> = new Map<any,  any[]>();
+    get BlocksModules():BlocksModule[]
+    {
+        throw new Error("initialize is not implemented. ")
     }
 }
 class IBootstrapper {
-    get PlugInSources():any
-    {
-        throw new Error("Not ")
+    get PlugInSources(): any {
+        throw new Error("plugInSources is not implemented. ")
     }
-    initialize()
-    {
-
+    initialize() {
+        throw new Error("initialize is not implemented. ")
     }
 }
 class startupModuleDefine extends IDependency {
     readonly moduleName: string = "";
-    getProviders(): any[]
-    {
+    getProviders(): any[] {
         throw new Error("getProviders is not implemented.")
     }
 }
@@ -40,25 +44,22 @@ class startupModuleDefine extends IDependency {
 class IShell extends IDependency {
     pluginSource: any[] = [];
     types: any[] = [];
-    initialize(): void
-    {
+    initialize(): void {
 
     }
     moduleMapTypes: Map<any, any[]> = new Map<any, any[]>();
-    typeMapModuleName: Map<any, string> = new Map<any,string>();
+    typeMapModuleName: Map<any, string> = new Map<any, string>();
 }
 
 
 class IRouteProvider extends IDependency {
-    getRoutes(): RouteResult[]
-    {
+    getRoutes(): RouteResult[] {
         throw new Error("getRoutes is not implemented.")
     }
 }
 
 class ITemplateProvider extends IDependency {
-    getTemplate(): TemplateResult[]
-    {
+    getTemplate(): TemplateResult[] {
         throw new Error("getTemplate is not implemented.")
     }
 }
@@ -74,7 +75,7 @@ class RouteResult {
     constructor() {
         this.children = [];
     }
-    meta:any;
+    meta: any;
 }
 
 class TemplateResult {
@@ -162,7 +163,7 @@ class Controller extends Vue {
             this.viewAnimationEndAndDataReady()
         console.debug("viewAnimationEndAndDataReady end")
         // this.$emit("viewDataReadyFinish")
-        let _this:any = this;
+        let _this: any = this;
         _this.$emit("viewDataReadyFinish");
 
         _this.$nextTick(async () => {
@@ -183,7 +184,7 @@ class Controller extends Vue {
     }
 }
 
-function isPromise(obj:any) {
+function isPromise(obj: any) {
 
     return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
 
@@ -215,9 +216,9 @@ function asyncCompatible() {
                 hasThen = false;
             }
             if (hasThen) {
-                returnObj.then((r:any) => {
+                returnObj.then((r: any) => {
                     p && p(r);
-                }).catch((r:any) => {
+                }).catch((r: any) => {
                     console.log(r)
                     p && p();
                 });
