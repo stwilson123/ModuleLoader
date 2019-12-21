@@ -27,10 +27,12 @@
   },
   "homepage": "https://github.com/stwilson123/module-loader#readme",
   "dependencies": {
+    "@babel/runtime": "^7.7.7",
     "inversify": "^5.0.1",
     "reflect-metadata": "^0.1.13",
     "rollup-plugin-commonjs": "^10.1.0",
     "vue": "2.6.9",
+    "vue-loader": "^15.8.3",
     "vue-property-decorator": "^8.3.0"
   },
   "devDependencies": {

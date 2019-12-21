@@ -57,6 +57,7 @@ const builds = {
         entry: resolve('src/index.ts'),
         dest: resolve('dist/blocks-module-loader.min.js'),
         plugins:[nodeResolve(),commonjs()],
+        external:['vue'],
         format: 'umd',
         env: 'production',
         alias: { he: './entity-decoder' },
@@ -91,7 +92,7 @@ function genConfig(name) {
             file: opts.dest,
             format: opts.format,
             banner: opts.banner,
-            name: opts.moduleName || 'BlocksModule'
+            name: opts.moduleName || 'interface' ||'BlocksModule'
         },
         onwarn: (msg, warn) => {
             if (!/Circular/.test(msg)) {

@@ -15,7 +15,16 @@ const webpackConfig = {
         loader: 'babel-loader',
         exclude: /node_modules/,
       
-      }
+      },
+      {
+        test: /\.(vue|)$/,
+        loader: 'vue-loader',
+        // options: {
+        //     loaders: {
+        //         'scss': 'vue-style-loader!css-loader?!postcss-loader!sass-loader',
+        //     }
+        // }
+    },
     ]
   },
   plugins: [

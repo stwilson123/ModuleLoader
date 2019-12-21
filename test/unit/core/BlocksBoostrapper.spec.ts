@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { describe } from "mocha";
-import {  globalIocManager, IBootstrapper, Types, IBlocksShell,IocManager,BlocksModule } from "@/interface";
+import { globalIocManager, IBootstrapper, Types, IBlocksShell, IocManager, BlocksModule } from "@/interface";
 import { Bootstrapper } from "@/index";
 import { CurrentModule as module1 } from "../testModel/bootstrapModel/module1/module1";
 import { CurrentModule as module2 } from "../testModel/bootstrapModel/module2/module2";
@@ -8,6 +8,10 @@ import { vieRegister1 } from "../testModel/bootstrapModel/module1/viewRegister1"
 import { vieRegister2 } from "../testModel/bootstrapModel/module2/viewRegister2";
 import { view1 } from "../testModel/bootstrapModel/module1/src/view1";
 import { view2 } from "../testModel/bootstrapModel/module2/src/view2";
+import { view1 as module2view1 } from "../testModel/bootstrapModel/module2/src/view1";
+
+import { module1RouteProvider as routeProvider1 } from "../testModel/bootstrapModel/module1/module1RouteProvider";
+import { module2RouteProvider as routeProvider2 } from "../testModel/bootstrapModel/module2/module2RouteProvider";
 import { BlocksBoostrapper } from "@/bootstrapper";
 
 
@@ -18,7 +22,7 @@ describe("bootstraptest", () => {
     Bootstrapper.initialize();
     let shell = globalIocManager.get<IBlocksShell>(Types.IBlocksShell);
 
-    let testInjectModules = (shell:IBlocksShell) => {
+    let testInjectModules = (shell: IBlocksShell) => {
         let blocksModules = shell.BlocksModules;
         let module1Obj = blocksModules[0];
         let module2Obj = blocksModules[1];
@@ -41,12 +45,12 @@ describe("bootstraptest", () => {
             if (registerModule === module1) {
                 debugger
                 expect(registerModule).be.equal(module1);
-                expect(shell.moduleMapTypes.get(registerModule)).to.be.all.members([module1, view1, vieRegister1]);
+                expect(shell.moduleMapTypes.get(registerModule)).to.be.all.members([module1, view1, vieRegister1, routeProvider1]);
                 continue;
             }
             if (registerModule === module2) {
                 expect(registerModule).be.equal(module2);
-                expect(shell.moduleMapTypes.get(registerModule)).to.be.all.members([module2, view2, vieRegister2]);
+                expect(shell.moduleMapTypes.get(registerModule)).to.be.all.members([module2, module2view1.options.type, view2, vieRegister2, routeProvider2]);
                 continue;
 
             }
@@ -54,7 +58,7 @@ describe("bootstraptest", () => {
         }
     }
 
-    let testGetRoute = (bootstrapper:BlocksBoostrapper<BlocksModule>) =>{
+    let testGetRoute = (bootstrapper: BlocksBoostrapper<BlocksModule>) => {
         let routes = bootstrapper.RouteHelper.getRoute();
         expect(routes).lengthOf(2);
     }
@@ -69,7 +73,7 @@ describe("bootstraptest", () => {
     });
 
     it("bootstrap can reinitialize", () => {
-        let iocManager =  new IocManager();
+        let iocManager = new IocManager();
         let bootstrapper = BlocksBoostrapper.create(undefined, (o) => o.iocManager = iocManager);
         let tsContext = require.context("../testModel/bootstrapModel/", true, /ts$/);
         iocManager.register((c) => c.bind<IBootstrapper>(Types.IBootstrapper).toConstantValue(bootstrapper));
@@ -85,6 +89,6 @@ describe("bootstraptest", () => {
     });
 
 
-  
+
 
 });

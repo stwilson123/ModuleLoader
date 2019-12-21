@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify"
 import { IocManager } from "./ioc/iocManager";
 import { Component, Vue, Watch,Prop } from 'vue-property-decorator';
-
+import "./vue/interface";
 let _win: any = window;
 let globalIocManager: IocManager = _win["globalIocManager"] || new IocManager();
 _win["globalIocManager"] = globalIocManager;
