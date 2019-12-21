@@ -1,12 +1,15 @@
 {
-  "name": "module-loader",
-  "version": "1.0.0",
+  "name": "front-module-loader",
+  "version": "0.0.13",
   "description": "Modular, loose couplings framework.",
-  "main": "index.js",
+  "main": "dist/blocks-module-loader.min.js",
+  "module": "dist/blocks-module-loader.min.js",
+  "typings": "types/index.d.ts",
   "scripts": {
     "dev:esm": "rollup -w -c scripts/config.js --environment TARGET:web-runtime-esm",
     "dev:esmMin": "rollup -w -c scripts/config.js --environment TARGET:web-full-esm-browser-prod",
-    "test:unit": "karma start test/unit/karma.unit.config.js",
+    "dev:compiler": "rollup -w -c scripts/config.js --environment TARGET:web-full-prod",
+    "test:unit": "karma start test/unit/karma.unit.config.js --singleRun true",
     "test:debug": "karma start test/unit/karma.unit.config.js --browsers chromeDebug"
   },
   "repository": {
@@ -26,15 +29,19 @@
   "dependencies": {
     "inversify": "^5.0.1",
     "reflect-metadata": "^0.1.13",
-    "vue": "^2.6.10",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "vue": "2.6.9",
     "vue-property-decorator": "^8.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/plugin-proposal-decorators": "^7.7.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.7.4",
+    "@babel/plugin-transform-runtime": "^7.7.4",
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-typescript": "^7.7.2",
+    "@rollup/plugin-node-resolve": "^6.0.0",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.11",
     "@types/should": "^13.0.0",

@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify"
 import { IocManager } from "./ioc/iocManager";
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue, Watch,Prop } from 'vue-property-decorator';
 
 let _win: any = window;
 let globalIocManager: IocManager = _win["globalIocManager"] || new IocManager();
@@ -17,10 +17,9 @@ class IBlocksShell {
 
     }
     types: any[] = [];
-    typeMapModuleName: Map<any, string> = new  Map<any, string>();
-    moduleMapTypes: Map<any, any[]> = new Map<any,  any[]>();
-    get BlocksModules():BlocksModule[]
-    {
+    typeMapModuleName: Map<any, string> = new Map<any, string>();
+    moduleMapTypes: Map<any, any[]> = new Map<any, any[]>();
+    get BlocksModules(): BlocksModule[] {
         throw new Error("initialize is not implemented. ")
     }
 }
@@ -31,6 +30,12 @@ class IBootstrapper {
     initialize() {
         throw new Error("initialize is not implemented. ")
     }
+
+    dispose()
+    {
+        throw new Error("dispose is not implemented. ")
+    }
+
 }
 class startupModuleDefine extends IDependency {
     readonly moduleName: string = "";
@@ -69,7 +74,7 @@ class RouteResult {
     name?: string;
     path: string = "";
     component: any | string;
-    components: any[] = [];
+    components?: any[];
     children: RouteResult[];
     uniqueKey?: string;
     constructor() {
@@ -98,11 +103,12 @@ const Types = {
 
 
 class BlocksModule extends IDependency {
-    providers: () => any[] = () => [];
-    //TODO Need to SortModule??
-    order = 10;
     @inject(IocManager)
     iocManager?: IocManager;
+    //TODO Need to SortModule??
+    order = 10;
+
+    providers: () => any[] = () => [];
     public readonly moduleName: string = "default";
     constructor() {
         super();
@@ -120,6 +126,11 @@ class BlocksModule extends IDependency {
 
     public getProviders(): any[] {
         return this.providers();
+    }
+
+    public async dispose()
+    {
+        
     }
 
 }
@@ -167,12 +178,16 @@ class Controller extends Vue {
         _this.$emit("viewDataReadyFinish");
 
         _this.$nextTick(async () => {
-            let allCom = _this.$el.querySelectorAll(".vue-recycle-scroller__item-view");
-            for (const com of allCom) {
-                let comChild = com.firstElementChild;
-                if (comChild && comChild.componentOnReady)
-                    await comChild.componentOnReady();
+            if (_this.$el.querySelectorAll) {
+                let allCom = _this.$el.querySelectorAll(".vue-recycle-scroller__item-view");
+                for (const com of allCom) {
+                    let comChild = com.firstElementChild;
+                    if (comChild && comChild.componentOnReady)
+                        await comChild.componentOnReady();
+                }
+
             }
+
             _this.$emit("viewReaderFinish");
         })
     }
@@ -182,6 +197,15 @@ class Controller extends Vue {
     viewDidEnter() {
 
     }
+
+    exit(...args:any[])
+    {
+        this.$emit("exit",...args)
+    }
+    getModuleName(){
+        let shell = globalIocManager.get<IBlocksShell>(Types.IBlocksShell);
+        return shell.typeMapModuleName.get(this.$options.type);
+     }
 }
 
 function isPromise(obj: any) {
@@ -231,8 +255,9 @@ function asyncCompatible() {
 
     }
 }
+ 
 export {
     startupModule, IDependency, IShell, IRouteProvider, ITemplateProvider, Types, IBlocksShell,
-    inject,injectable, BlocksModule, Controller, Component, RouteResult, TemplateResult, globalIocManager, IBootstrapper, IocManager,
+    inject,injectable, BlocksModule, Controller, Component, Prop, RouteResult, TemplateResult, globalIocManager, IBootstrapper, IocManager,
     asyncCompatible
 }

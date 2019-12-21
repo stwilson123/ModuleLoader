@@ -41,6 +41,16 @@ class IocManager
         return this.diConainter.getAll(serviceIdentifier);
     }
 
+    public isRegistered<T>(serviceIdentifier: ServiceIdentifier<T>)
+    {
+        return this.diConainter.isBound(serviceIdentifier);
+    }
+
+    public unbindAll()
+    {
+        this.diConainter.unbindAll();
+    }
+
 }
 type ServiceIdentifier<T> = (string | symbol | Newable<T> | Abstract<T> );
 

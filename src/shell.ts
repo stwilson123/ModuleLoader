@@ -1,6 +1,8 @@
-import { IBlocksShell, Types, IDependency, BlocksModule, IocManager } from "./interface"
+import { IBlocksShell, Types, IDependency, BlocksModule, IocManager,Controller } from "./interface"
 import { Container, injectable, decorate, inject } from "inversify";
 import { RouteStartupModule } from "./routes/routeStartupModule"
+import { decorateIfNoExist } from "./ioc/decorate";
+
 export class BlocksShell implements IBlocksShell {
     public pluginSource: any[] = [];
     public types: any[];
@@ -96,6 +98,11 @@ export class BlocksShell implements IBlocksShell {
                     this.typeMapFileName.set(exportType, [isModule, fileKey]);
                     this.types.push(exportTypes[objKey]);
                 }
+                if(exportType.prototype instanceof Controller && exportType.options.type)
+                {
+                    this.typeMapFileName.set(exportType.options.type, [isModule, fileKey]);
+                    this.types.push(exportType.options.type);
+                }
                 // if(fileKey.lastIndexOf(".bl.ts"))
                 // {
                 //     debugger
@@ -114,14 +121,14 @@ export class BlocksShell implements IBlocksShell {
 
     private autoRegisterModule(type: any): boolean {
 
-
+        let a = BlocksModule;
         if (type.prototype instanceof BlocksModule) {
 
             this.iocManager.register((c: Container) => {
                 c.bind(BlocksModule).to(type).inTransientScope();
-                decorate(injectable(), type);
+                decorateIfNoExist(injectable(), type);
             });
-
+             
             return true;
 
         }

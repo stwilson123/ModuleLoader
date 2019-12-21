@@ -1,13 +1,16 @@
 import { BootstrapperOptions } from './bootstrapper-options'
 import { Container, injectable, decorate, inject } from "inversify";
-import { IocManager,BlocksModule, Types, IDependency, IBootstrapper,IBlocksShell   } from './interface';
-import { BlocksShell } from "./Shell"
-class BlocksBoostrapper<T extends BlocksModule> extends IBootstrapper
-{
+import { IocManager, BlocksModule, Types, IDependency, IBootstrapper, IBlocksShell } from './interface';
+import { BlocksShell } from "./shell";
+import { RouteHelperCls } from "./routes/routeHelper";
+import { decorateIfNoExist  } from "./ioc/decorate";
+class BlocksBoostrapper<T extends BlocksModule> extends IBootstrapper {
     //temp 
     public iocManager: IocManager;
+    public RouteHelper:RouteHelperCls ;
     private startModule?: T;
-    private plugInSources: any[];
+    private plugInSources: any[];                                               
+
     get PlugInSources() {
         return this.plugInSources;
     }
@@ -21,6 +24,7 @@ class BlocksBoostrapper<T extends BlocksModule> extends IBootstrapper
         this.iocManager = bootstarpperOptions.iocManager;
         this.startModule = startModule;
         this.plugInSources = [];
+        this.RouteHelper = new RouteHelperCls(this.iocManager);
 
     }
 
@@ -30,6 +34,7 @@ class BlocksBoostrapper<T extends BlocksModule> extends IBootstrapper
     }
 
     public initialize() {
+        
         //Logger
         this.registerShell()
 
@@ -45,10 +50,15 @@ class BlocksBoostrapper<T extends BlocksModule> extends IBootstrapper
             c.bind<IBlocksShell>(Types.IBlocksShell).to(BlocksShell).inSingletonScope();
             //c.bind<BlocksShell>(Types.IBlocksShell).to(BlocksShell).inSingletonScope();
 
-            decorate(injectable(), IocManager);
-            decorate(injectable(), BlocksShell);
+            decorateIfNoExist(injectable(), IocManager);
+            decorateIfNoExist(injectable(), BlocksShell);
         });
 
+    }
+
+    public dispose()
+    {
+        this.iocManager.unbindAll();
     }
 }
 
