@@ -1,7 +1,12 @@
-import { IBlocksShell, Types, IDependency, BlocksModule, IocManager,Controller } from "./interface"
+import { IBlocksShell, IDependency, BlocksModule } from "./abstract"
 import { Container, injectable, decorate, inject } from "inversify";
-import { RouteStartupModule } from "./routes/routeStartupModule"
-import { decorateIfNoExist } from "./ioc/decorate";
+import { RouteStartupModule } from "@/routes/routeStartupModule"
+import { decorateIfNoExist } from "@/ioc/decorate";
+import { IocManager } from "@/ioc/iocManager";
+import { Controller } from "@/vue/interface";
+import {  manifestStartupModule } from "@/manifest/manifestStartupModule"
+
+ 
 
 export class BlocksShell implements IBlocksShell {
     public pluginSource: any[] = [];
@@ -30,6 +35,7 @@ export class BlocksShell implements IBlocksShell {
             this.moduleAndDependencyLoader(filesArray);
         }
         this.autoRegisterModule(RouteStartupModule);
+        this.autoRegisterModule(manifestStartupModule);
 
 
         let startupModules = this.iocManager.getAll(BlocksModule);
@@ -121,7 +127,6 @@ export class BlocksShell implements IBlocksShell {
 
     private autoRegisterModule(type: any): boolean {
 
-        let a = BlocksModule;
         if (type.prototype instanceof BlocksModule) {
 
             this.iocManager.register((c: Container) => {

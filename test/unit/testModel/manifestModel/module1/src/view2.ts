@@ -1,6 +1,4 @@
-
-
-import { Controller,Component } from "@/index";
+import { Controller, Component } from "@/interface";
 
 
 @Component
@@ -8,4 +6,3 @@ export default class view1 extends Controller
 {
 
 }
-

@@ -6,7 +6,7 @@ class ModuleRegister implements IDependencyRegister
     public register(RegistrationContexts: import("../ioc/iocManager").RegistrationContext) {
 
         RegistrationContexts.iocManger.register((c:Container) => {
-            debugger;
+           // debugger;
 
         });
     }

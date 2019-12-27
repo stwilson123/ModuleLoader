@@ -4,8 +4,6 @@
     {
         public CreateContainer() : IocManager
         {
-            
-            
             return null;
         }
     }

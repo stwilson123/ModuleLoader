@@ -1,8 +1,8 @@
-import { Controller } from "@/interface";
+// import { Controller,Component } from "@/interface";
 
 
+// @Component
+// export default class view1 extends Controller
+// {
 
-export class view1 extends Controller
-{
-
-}
+// }

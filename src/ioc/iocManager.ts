@@ -1,5 +1,5 @@
 
-import { Container } from "inversify";
+import { Container,inject,injectable, multiInject } from "inversify";
 import "reflect-metadata";
 class IocManager
 {
@@ -77,4 +77,4 @@ class RegistrationContext
     }
 }
 
-export { IocManager, IDependencyRegister, RegistrationContext}
+export { IocManager, IDependencyRegister, RegistrationContext, inject, injectable, multiInject}

@@ -9,21 +9,19 @@
 module.exports = {
   presets: [
 
-    "@babel/preset-typescript",
+    
     [
       "@babel/preset-env",
       {
         "modules": false,
-       // "useBuiltIns": "entry",
-        // "corejs": 3.1,
+        "useBuiltIns": "entry",
+        "corejs": 3.1,
         "targets": {
-          "browsers": [
-            "> 0.25%, not dead",
-            "ie > 8"
-          ]
+           "ie":"10"
         }
       }
-    ]
+    ],
+    "@babel/preset-typescript"
     // require('babel-preset-flow-vue')
     // babelPresetFlowVue
   ],
@@ -38,12 +36,13 @@ module.exports = {
     ["@babel/plugin-transform-runtime",
       {
         "absoluteRuntime": false,
-        "corejs": false,
+        "corejs": 3,
         "helpers": false,
         "regenerator": true,
         "useESModules": false
       }
-    ]
+    ],
+     
   ]
 
 }

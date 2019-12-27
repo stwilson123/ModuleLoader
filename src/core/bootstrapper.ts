@@ -1,9 +1,9 @@
 import { BootstrapperOptions } from './bootstrapper-options'
 import { Container, injectable, decorate, inject } from "inversify";
-import { IocManager, BlocksModule, Types, IDependency, IBootstrapper, IBlocksShell } from './interface';
+import { IocManager, BlocksModule, Types, IDependency, IBootstrapper, IBlocksShell } from '../interface';
 import { BlocksShell } from "./shell";
-import { RouteHelperCls } from "./routes/routeHelper";
-import { decorateIfNoExist  } from "./ioc/decorate";
+import { RouteHelperCls } from "../routes/routeHelper";
+import { decorateIfNoExist  } from "../ioc/decorate";
 class BlocksBoostrapper<T extends BlocksModule> extends IBootstrapper {
     //temp 
     public iocManager: IocManager;

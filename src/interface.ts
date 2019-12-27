@@ -1,219 +1,19 @@
-import { injectable, inject } from "inversify"
-import { IocManager } from "./ioc/iocManager";
-import { Component, Vue, Watch,Prop } from 'vue-property-decorator';
-import "./vue/interface";
-let _win: any = window;
-let globalIocManager: IocManager = _win["globalIocManager"] || new IocManager();
-_win["globalIocManager"] = globalIocManager;
-@injectable()
-class IDependency {
-
-}
-
-class IBlocksShell {
-    pluginSource?: any[];
-    initialize(): void {
-        throw new Error("initialize is not implemented. ")
-
-    }
-    types: any[] = [];
-    typeMapModuleName: Map<any, string> = new Map<any, string>();
-    moduleMapTypes: Map<any, any[]> = new Map<any, any[]>();
-    get BlocksModules(): BlocksModule[] {
-        throw new Error("initialize is not implemented. ")
-    }
-}
-class IBootstrapper {
-    get PlugInSources(): any {
-        throw new Error("plugInSources is not implemented. ")
-    }
-    initialize() {
-        throw new Error("initialize is not implemented. ")
-    }
-
-    dispose()
-    {
-        throw new Error("dispose is not implemented. ")
-    }
-
-}
-class startupModuleDefine extends IDependency {
-    readonly moduleName: string = "";
-    getProviders(): any[] {
-        throw new Error("getProviders is not implemented.")
-    }
-}
+import { Types } from "./Types";
+import { injectable, inject ,IocManager} from "./ioc/iocManager"
+import { IDependency,IBlocksShell,IBootstrapper,IShell,BlocksModule,globalIocManager } from "./core/abstract";
+import { IRouteProvider, ITemplateProvider, RouteResult, TemplateResult } from './routes/abstract';
+import { Vue, Component, Watch, Prop,Controller } from './vue/interface';
+ 
 
 
 
-class IShell extends IDependency {
-    pluginSource: any[] = [];
-    types: any[] = [];
-    initialize(): void {
-
-    }
-    moduleMapTypes: Map<any, any[]> = new Map<any, any[]>();
-    typeMapModuleName: Map<any, string> = new Map<any, string>();
-}
 
 
-class IRouteProvider extends IDependency {
-    getRoutes(): RouteResult[] {
-        throw new Error("getRoutes is not implemented.")
-    }
-}
-
-class ITemplateProvider extends IDependency {
-    getTemplate(): TemplateResult[] {
-        throw new Error("getTemplate is not implemented.")
-    }
-}
-
-class RouteResult {
-    layout: string = "";
-    name?: string;
-    path: string = "";
-    component: any | string;
-    components?: any[];
-    children: RouteResult[];
-    uniqueKey?: string;
-    constructor() {
-        this.children = [];
-    }
-    meta: any;
-}
-
-class TemplateResult {
-    layout?: string;
-    name?: string;
-    path?: string;
-    component: any | string;
-    components?: any[];
-    children?: RouteResult[];
-
-}
-
-const Types = {
-
-    IBlocksShell: Symbol.for("IBlocksShell"),
-    IRouteProvider: Symbol.for("IRouteProvider"),
-    ITemplateProvider: Symbol.for("ITemplateProvider"),
-    IBootstrapper: Symbol.for("IBootstrapper")
-}
 
 
-class BlocksModule extends IDependency {
-    @inject(IocManager)
-    iocManager?: IocManager;
-    //TODO Need to SortModule??
-    order = 10;
 
-    providers: () => any[] = () => [];
-    public readonly moduleName: string = "default";
-    constructor() {
-        super();
-    }
-
-    public async preInitialize() {
-        // let tsContext = require.context("./", true);
-
-        // this.iocManager.RegisterModuleByConvention(this.providers);
-    }
-
-    public async initialize() {
-
-    }
-
-    public getProviders(): any[] {
-        return this.providers();
-    }
-
-    public async dispose()
-    {
-        
-    }
-
-}
-
-
-@Component({})
-class Controller extends Vue {
-    constructor() {
-        super()
-    }
-    viewWillEnterResult: any;
-    viewAnimationEndTime: any;
-    created() {
-        this.viewWillEnterResult = this.viewWillEnter();
-        console.debug("assign viewWillEnterResult")
-    }
-    async mounted() {
-        if (isPromise(this.viewDidEnter))
-            await this.viewDidEnter();
-        else
-            this.viewDidEnter();
-        this.viewAnimationEndTime = setTimeout(() => {
-            this.viewAnimationEnd();
-        }, 800);
-    }
-
-    viewAnimationEndAndDataReady() {
-
-    }
-    async viewAnimationEnd() {
-        console.debug("viewAnimationEnd start")
-        clearTimeout(this.viewAnimationEndTime)
-        if (isPromise(this.viewWillEnterResult)) {
-            await this.viewWillEnterResult;
-            console.debug("await  viewWillEnterResult")
-        }
-        console.debug("viewWillEnterResult end")
-        if (isPromise(this.viewAnimationEndAndDataReady))
-            await this.viewAnimationEndAndDataReady()
-        else
-            this.viewAnimationEndAndDataReady()
-        console.debug("viewAnimationEndAndDataReady end")
-        // this.$emit("viewDataReadyFinish")
-        let _this: any = this;
-        _this.$emit("viewDataReadyFinish");
-
-        _this.$nextTick(async () => {
-            if (_this.$el.querySelectorAll) {
-                let allCom = _this.$el.querySelectorAll(".vue-recycle-scroller__item-view");
-                for (const com of allCom) {
-                    let comChild = com.firstElementChild;
-                    if (comChild && comChild.componentOnReady)
-                        await comChild.componentOnReady();
-                }
-
-            }
-
-            _this.$emit("viewReaderFinish");
-        })
-    }
-    viewWillEnter() {
-
-    }
-    viewDidEnter() {
-
-    }
-
-    exit(...args:any[])
-    {
-        this.$emit("exit",...args)
-    }
-    getModuleName(){
-        let shell = globalIocManager.get<IBlocksShell>(Types.IBlocksShell);
-        return shell.typeMapModuleName.get(this.$options.type);
-     }
-}
-
-function isPromise(obj: any) {
-
-    return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
-
-}
-let startupModule = startupModuleDefine;
+ 
+//let startupModule = startupModuleDefine;
 //  let IDependency = IDependencyDefine;
 // this.Interface = {
 //     startupModule, IDependency, IShell, IRouteProvider, ITemplateProvider, Types,
@@ -257,7 +57,7 @@ function asyncCompatible() {
 }
  
 export {
-    startupModule, IDependency, IShell, IRouteProvider, ITemplateProvider, Types, IBlocksShell,
-    inject,injectable, BlocksModule, Controller, Component, Prop, RouteResult, TemplateResult, globalIocManager, IBootstrapper, IocManager,
+     IDependency, IShell, IRouteProvider, ITemplateProvider, Types, IBlocksShell,
+    inject,injectable, BlocksModule, Controller, Component, Prop,Watch, RouteResult, TemplateResult, globalIocManager, IBootstrapper, IocManager,
     asyncCompatible
 }

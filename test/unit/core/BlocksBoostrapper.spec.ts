@@ -6,13 +6,13 @@ import { CurrentModule as module1 } from "../testModel/bootstrapModel/module1/mo
 import { CurrentModule as module2 } from "../testModel/bootstrapModel/module2/module2";
 import { vieRegister1 } from "../testModel/bootstrapModel/module1/viewRegister1";
 import { vieRegister2 } from "../testModel/bootstrapModel/module2/viewRegister2";
-import { view1 } from "../testModel/bootstrapModel/module1/src/view1";
-import { view2 } from "../testModel/bootstrapModel/module2/src/view2";
-import { view1 as module2view1 } from "../testModel/bootstrapModel/module2/src/view1";
+import view1 from "../testModel/bootstrapModel/module1/src/view1";
+import view2 from "../testModel/bootstrapModel/module2/src/view2";
+import module2view1 from "../testModel/bootstrapModel/module2/src/view1";
 
 import { module1RouteProvider as routeProvider1 } from "../testModel/bootstrapModel/module1/module1RouteProvider";
 import { module2RouteProvider as routeProvider2 } from "../testModel/bootstrapModel/module2/module2RouteProvider";
-import { BlocksBoostrapper } from "@/bootstrapper";
+import { BlocksBoostrapper } from "@/core/bootstrapper";
 
 
 describe("bootstraptest", () => {
@@ -62,6 +62,15 @@ describe("bootstraptest", () => {
         let routes = bootstrapper.RouteHelper.getRoute();
         expect(routes).lengthOf(2);
     }
+
+    let testGetModuleName = () => {
+
+        let view2Obj = new module2view1();
+        let moduleName = view2Obj.getModuleName();
+
+        expect(moduleName).equal("module2");
+    }
+
     it("bootstrap auto inject modules", () => {
         testInjectModules(shell);
     });
@@ -71,6 +80,13 @@ describe("bootstraptest", () => {
     it("RouteHelper can get routes", () => {
         testGetRoute(Bootstrapper);
     });
+
+    it("vue Controller can getModuleName", () => {
+
+        testGetModuleName();
+    });
+
+
 
     it("bootstrap can reinitialize", () => {
         let iocManager = new IocManager();

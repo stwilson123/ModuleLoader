@@ -1,6 +1,8 @@
-import { IShell, inject, Types, IRouteProvider, ITemplateProvider, BlocksModule } from "../interface"
+import { Types } from "@/Types";
+import { IRouteProvider, ITemplateProvider } from "./abstract"
+import { inject} from "../ioc/iocManager"
 import { Container } from "inversify";
-
+import { BlocksModule,IShell, } from "@/core/abstract";
 
 export class RouteStartupModule extends BlocksModule {
     @inject(Types.IBlocksShell)

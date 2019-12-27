@@ -1,5 +1,5 @@
 
-import { IocManager } from "./interface";
+import { IocManager } from "@/ioc/iocManager";
 
 export class BootstrapperOptions
 {

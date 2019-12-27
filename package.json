@@ -28,6 +28,8 @@
   "homepage": "https://github.com/stwilson123/module-loader#readme",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
+    "@babel/runtime-corejs3": "^7.7.7",
+    "core-js": "^3.6.1",
     "inversify": "^5.0.1",
     "reflect-metadata": "^0.1.13",
     "rollup-plugin-commonjs": "^10.1.0",
@@ -44,6 +46,7 @@
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-typescript": "^7.7.2",
     "@rollup/plugin-node-resolve": "^6.0.0",
+    "@types/chai": "^4.2.7",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.11",
     "@types/should": "^13.0.0",
