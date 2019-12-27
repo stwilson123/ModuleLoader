@@ -85,9 +85,7 @@ class Controller extends Vue {
         return moduleName;
     }
 
-    getResources(resourceType: string, resourceName: string) {
-        debugger
-        let moduleName = this.getModuleName();
+    getResources(moduleName:string,resourceType: string, resourceName: string) {
         let resourceManager = globalIocManager.get<IResourceManager>(Types.IResourceManager);
         let resourceDef = resourceManager.getResource(moduleName, resourceType, resourceName);
         if (resourceDef === undefined)
