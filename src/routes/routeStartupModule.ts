@@ -1,9 +1,11 @@
 import { Types } from "@/Types";
-import { IRouteProvider, ITemplateProvider } from "./abstract"
-import { inject} from "../ioc/iocManager"
+import { IRouteProvider, ITemplateProvider, IRouteManager } from "./abstract"
+import { IocManager, inject, injectable } from '@/ioc/iocManager';
 import { Container } from "inversify";
-import { BlocksModule,IShell, } from "@/core/abstract";
+import { BlocksModule, IShell, } from "@/core/abstract";
+import DefaultRouteManager from "@/routes/RouteManager"
 
+import { decorateIfNoExist } from "@/ioc/decorate";
 export class RouteStartupModule extends BlocksModule {
     @inject(Types.IBlocksShell)
     shell?: IShell;
@@ -17,6 +19,11 @@ export class RouteStartupModule extends BlocksModule {
         if (!this.iocManager)
             throw new Error("iocManager is null or empty.")
         let iocManagerTmp = this.iocManager;
+
+        iocManagerTmp.register((c: Container) => {
+            c.bind<IRouteManager>(Types.IRouteManager).to(DefaultRouteManager).inSingletonScope();
+            decorateIfNoExist(injectable(), DefaultRouteManager);
+        });
         this.shell.moduleMapTypes.forEach((typeMap, ModuleType) => {
             typeMap.forEach((type, index) => {
 

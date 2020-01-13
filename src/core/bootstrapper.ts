@@ -2,12 +2,16 @@ import { BootstrapperOptions } from './bootstrapper-options'
 import { Container, injectable, decorate, inject } from "inversify";
 import { IocManager, BlocksModule, Types, IDependency, IBootstrapper, IBlocksShell } from '../interface';
 import { BlocksShell } from "./shell";
-import { RouteHelperCls } from "../routes/routeHelper";
+import { IRouteManager } from "../routes/abstract";
 import { decorateIfNoExist  } from "../ioc/decorate";
+import { Types as globalTypes } from "@/Types";
 class BlocksBoostrapper<T extends BlocksModule> extends IBootstrapper {
     //temp 
     public iocManager: IocManager;
-    public RouteHelper:RouteHelperCls ;
+    get RouteHelper():IRouteManager 
+    {
+        return this.iocManager.get<IRouteManager>(globalTypes.IRouteManager);
+    }
     private startModule?: T;
     private plugInSources: any[];                                               
 
@@ -24,7 +28,7 @@ class BlocksBoostrapper<T extends BlocksModule> extends IBootstrapper {
         this.iocManager = bootstarpperOptions.iocManager;
         this.startModule = startModule;
         this.plugInSources = [];
-        this.RouteHelper = new RouteHelperCls(this.iocManager);
+       // this.RouteHelper = new RouteHelperCls(this.iocManager);
 
     }
 

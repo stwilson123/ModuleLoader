@@ -35,4 +35,13 @@ class TemplateResult {
 
 }
 
-export { IRouteProvider, ITemplateProvider, RouteResult, TemplateResult }
+interface IRouteManager
+{
+    getUniquePath(): any[];
+    getRoute(): any[];
+}
+
+interface layoutRouteChild {
+    [key: string]: any,
+}
+export { IRouteProvider, ITemplateProvider, RouteResult, TemplateResult, IRouteManager,layoutRouteChild }

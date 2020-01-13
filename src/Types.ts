@@ -4,7 +4,9 @@ const Types = {
     ITemplateProvider: Symbol.for("ITemplateProvider"),
     IBootstrapper: Symbol.for("IBootstrapper"),
     IManifestProvider: Symbol.for("IManifestProvider"),
-    IResourceManager: Symbol.for("IResourceManager")
+    IResourceManager: Symbol.for("IResourceManager"),
+    IRouteManager: Symbol.for("IRouteManager"),
+
 }
 
 
