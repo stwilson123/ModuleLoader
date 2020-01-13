@@ -3,8 +3,10 @@ import { BlocksBoostrapper } from './core/bootstrapper';
 import {
     IDependency, IShell, IRouteProvider, ITemplateProvider, Types, IBlocksShell,
     inject, BlocksModule, Controller, Component, Prop, RouteResult, TemplateResult, globalIocManager, IBootstrapper, IocManager,
-    asyncCompatible
+    asyncCompatible,IManifestProvider
 } from "./interface";
+
+import { to  } from "await-to-js";
 const TYPES = {
     BlocksModule: Symbol.for("BlocksModule"),
 
@@ -18,5 +20,5 @@ let Bootstrapper = BlocksBoostrapper.create(undefined, (o) => o.iocManager = glo
 export {
     TYPES, Bootstrapper, IDependency, IShell, IRouteProvider, ITemplateProvider, Types, IBlocksShell,
     inject, BlocksModule, Controller, Component, Prop, RouteResult, TemplateResult, globalIocManager, IBootstrapper, IocManager,
-    asyncCompatible
+    asyncCompatible,IManifestProvider, to as catchWrap
 }
