@@ -1,5 +1,5 @@
-import { IManifestProvider, ResourceManifestBuilder } from "@/manifest/abstract";
-
+import { ResourceManifestBuilder } from "@/manifest/abstract";
+import { IManifestProvider } from "@/interface";
 export class manifestProvidr extends IManifestProvider {
     buildManifests(builder: ResourceManifestBuilder) {
         let builderAdd = builder.add();

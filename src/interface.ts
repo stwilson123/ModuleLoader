@@ -1,9 +1,9 @@
 import { Types } from "./Types";
-import { injectable, inject ,IocManager} from "./ioc/iocManager"
-import { IDependency,IBlocksShell,IBootstrapper,IShell,BlocksModule,globalIocManager } from "./core/abstract";
+import { injectable, inject, IocManager } from "./ioc/iocManager"
+import { IDependency, IBlocksShell, IBootstrapper, IShell, BlocksModule, globalIocManager } from "./core/abstract";
 import { IRouteProvider, ITemplateProvider, RouteResult, TemplateResult } from './routes/abstract';
-import { Vue, Component, Watch, Prop,Controller } from './vue/interface';
- 
+import { Vue, Component, Watch, Prop, Controller } from './vue/interface';
+import { IManifestProvider } from "@/manifest/abstract";
 
 
 
@@ -12,7 +12,7 @@ import { Vue, Component, Watch, Prop,Controller } from './vue/interface';
 
 
 
- 
+
 //let startupModule = startupModuleDefine;
 //  let IDependency = IDependencyDefine;
 // this.Interface = {
@@ -55,9 +55,9 @@ function asyncCompatible() {
 
     }
 }
- 
+
 export {
-     IDependency, IShell, IRouteProvider, ITemplateProvider, Types, IBlocksShell,
-    inject,injectable, BlocksModule, Controller, Component, Prop,Watch, RouteResult, TemplateResult, globalIocManager, IBootstrapper, IocManager,
-    asyncCompatible
+    IDependency, IShell, IRouteProvider, ITemplateProvider, Types, IBlocksShell,
+    inject, injectable, BlocksModule, Controller, Component, Prop, Watch, RouteResult, TemplateResult, globalIocManager, IBootstrapper, IocManager,
+    asyncCompatible, IManifestProvider
 }
