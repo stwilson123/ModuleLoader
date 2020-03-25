@@ -1,17 +1,17 @@
 {
   "name": "@blocks-framework/core",
-  "version": "0.0.7",
+  "version": "0.0.10",
   "description": "Modular, loose couplings framework.",
   "main": "dist/blocks-module-loader.min.js",
   "module": "dist/blocks-module-loader.esm.browser.min.js",
-  "typings": "dist/types/index.d.ts",
+  "typings": "dist/types/src/index.d.ts",
   "scripts": {
-    "dev:esm": "rollup -w -c scripts/config.js --environment TARGET:web-runtime-esm",
-    "prod:esm": "rollup -w -c scripts/config.js --environment TARGET:web-full-esm-browser-prod",
+    "dev:esm": "rollup -w -c scripts/config.js --environment TARGET:web-full-esm-browser",
+    "prod:esm": "rollup -w -c scripts/config.js --environment TARGET:web-full-esm-browser-prod ",
     "dev:umd": "rollup -w -c scripts/config.js --environment TARGET:web-full-dev",
     "prod:umd": "rollup -w -c scripts/config.js --environment TARGET:web-full-prod",
     "build": "node scripts/build.js",
-    "test:unit": "karma start test/unit/karma.unit.config.js --singleRun true",
+    "test:unit": "karma start test/unit/karma.unit.config.js ",
     "test:debug": "karma start test/unit/karma.unit.config.js --browsers chromeDebug"
   },
   "repository": {

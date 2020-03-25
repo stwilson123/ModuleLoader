@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { describe } from "mocha";
+import { describe,it } from "mocha";
 import {   IBootstrapper, Types, IBlocksShell, IocManager, BlocksModule } from "@/interface";
 import { CurrentModule as module1 } from "../testModel/bootstrapModel/module1/module1";
 import { CurrentModule as module2 } from "../testModel/bootstrapModel/module2/module2";
@@ -22,7 +22,6 @@ describe("bootstraptest", () => {
     Bootstrapper.initialize();
     let globalIocManager = Bootstrapper.iocManager;
     let shell = globalIocManager.get<IBlocksShell>(Types.IBlocksShell);
-    debugger
     let testInjectModules = (shell: IBlocksShell) => {
         let blocksModules = shell.BlocksModules;
         let module1Obj = blocksModules[0];
@@ -44,7 +43,6 @@ describe("bootstraptest", () => {
         let moduleMapTypes = [...shell.moduleMapTypes.keys()]
         for (const registerModule of moduleMapTypes) {
             if (registerModule === module1) {
-                debugger
                 expect(registerModule).be.equal(module1);
                 expect(shell.moduleMapTypes.get(registerModule)).to.be.all.members([module1, view1, vieRegister1, routeProvider1]);
                 continue;
@@ -60,7 +58,6 @@ describe("bootstraptest", () => {
     }
 
     let testGetRoute = (bootstrapper: BlocksBoostrapper<BlocksModule>) => {
-        debugger
         let routes = bootstrapper.RouteHelper.getRoute();
         expect(routes).lengthOf(2);
     }

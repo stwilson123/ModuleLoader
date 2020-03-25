@@ -44,4 +44,7 @@ interface IRouteManager
 interface layoutRouteChild {
     [key: string]: any,
 }
-export { IRouteProvider, ITemplateProvider, RouteResult, TemplateResult, IRouteManager,layoutRouteChild }
+
+
+let getUniqueKey = (moduleName:String|undefined,uniqueKey:String):string =>   uniqueKey + "_" + moduleName;
+export { IRouteProvider, ITemplateProvider, RouteResult, TemplateResult, IRouteManager,layoutRouteChild,getUniqueKey }

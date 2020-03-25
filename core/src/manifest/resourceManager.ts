@@ -1,10 +1,9 @@
-import { IResourceManager, ResourceDefinition, IManifestProvider, ResourceManifestBuilder } from "./abstract";
+import { IResourceManager, ResourceDefinition, IManifestProvider, ResourceManifestBuilder,getResourceKey } from "./abstract";
 import { Types } from "@/Types";
 import { inject, multiInject } from "@/ioc/iocManager";
 import { IBlocksShell, } from "@/core/abstract";
 export class resourceManager implements IResourceManager {
-    public static getResourceKey = (resourceType: string, resourceName: string) =>
-        resourceType + "-" + resourceName;
+ 
     constructor(@inject(Types.IBlocksShell) blocksShell: IBlocksShell, @multiInject(Types.IManifestProvider) manifestProviders: IManifestProvider[]) {
         this.resources = new Map<string, Map<string, ResourceDefinition>>();
         this.blocksShell = blocksShell;
@@ -22,10 +21,10 @@ export class resourceManager implements IResourceManager {
     getResource(moduleName: string, resourceType: string, resourceName: string): ResourceDefinition|undefined {
 
         let moduleResource = this.getResources().get(moduleName);
-        if (!moduleResource || !moduleResource.has(resourceManager.getResourceKey(resourceType, resourceName))) {
+        if (!moduleResource || !moduleResource.has(getResourceKey(resourceType, resourceName))) {
             throw new Error(`Can not found resourceType:${resourceType}, resourceName:${resourceName} in resources.`)
         }
-        return moduleResource.get(resourceManager.getResourceKey(resourceType, resourceName));
+        return moduleResource.get(getResourceKey(resourceType, resourceName));
     }
 
     buildResource(): void {
@@ -41,7 +40,7 @@ export class resourceManager implements IResourceManager {
                 for (const resource of manifest.resources) {
                     let resourceNameMap = this.resources.get(moduleName);
                     if (resourceNameMap)
-                        resourceNameMap.set(resourceManager.getResourceKey(resource.resourceType, resource.resourceName), resource);
+                        resourceNameMap.set(getResourceKey(resource.resourceType, resource.resourceName), resource);
                 }
 
             }

@@ -1,13 +1,11 @@
-import {} from "@blocks-framework/core";
+
 import { Component } from './component';
 
 import { Controller } from './controller';
 
 import { Watch, Prop } from 'vue-property-decorator';
-import { to } from "await-to-js";
-
+import { SpecialInject,InjectCore } from "@/ioc/iocRegister";
+import { asyncCompatible } from "@/utility/asyncCompatible";
 export {
-    IDependency, IShell, IRouteProvider, ITemplateProvider, Types, IBlocksShell,
-    inject, injectable, BlocksModule, Controller, Component, Prop, Watch, RouteResult, TemplateResult, globalIocManager, IBootstrapper, IocManager,
-    asyncCompatible, IManifestProvider, decorateIfNoExist, to as catchWrap
+    Controller, Component, Prop, Watch, SpecialInject,InjectCore,asyncCompatible
 }

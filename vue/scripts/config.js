@@ -25,11 +25,11 @@ const banner =
 const builds = {
 
     // Runtime only ES modules build (for bundlers)
-    'web-full-esm-browser': {
+    'web-full-esm': {
         entry: resolve('src/index.ts'),
-        dest: resolve('dist/blocks-module-loader.esm.browser.js'),
+        dest: resolve('dist/blocks-module-loader.esm.browser.esm.js'),
         env: 'development',
-        format: 'esm',
+        format: 'es',
         banner,
 
     },
@@ -37,7 +37,7 @@ const builds = {
     'web-full-esm-browser-prod': {
         entry: resolve('src/index.ts'),
         dest: resolve('dist/blocks-module-loader.esm.browser.min.js'),
-        format: 'esm',
+        format: 'es',
         transpile: false,
         env: 'production',
         //external:['inversify','reflect-metadata'],
@@ -93,7 +93,7 @@ function genConfig(name) {
             flow(),
             typescript({
                 useTsconfigDeclarationDir: true,
-                // tsconfigDefaults: { compilerOptions: { declaration: true } },
+                tsconfigDefaults: { compilerOptions: { declaration: true } },
                 tsconfig: resolve("tsconfig.json"),
             }),
 
@@ -103,8 +103,7 @@ function genConfig(name) {
             file: opts.dest,
             format: opts.format,
             banner: opts.banner,
-            name: opts.moduleName || 'interface' || 'BlocksModule',
-            sourcemap: true
+            name: opts.moduleName || 'interface' || 'BlocksModule'
         },
         onwarn: (msg, warn) => {
             if (!/Circular/.test(msg)) {

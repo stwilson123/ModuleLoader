@@ -1,4 +1,4 @@
-let typeCheckExpression:((t:any) => any)[] = [];
+let typeCheckExpression:((t:any,fileKey: any) => any)[] = [];
 
 
 

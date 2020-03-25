@@ -6,7 +6,7 @@ const Types = {
     IManifestProvider: Symbol.for("IManifestProvider"),
     IResourceManager: Symbol.for("IResourceManager"),
     IRouteManager: Symbol.for("IRouteManager"),
-
+    BlocksModule: Symbol.for("BlocksModule")
 }
 
 

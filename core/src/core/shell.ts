@@ -5,6 +5,7 @@ import { decorateIfNoExist } from "@/ioc/decorate";
 import { IocManager } from "@/ioc/iocManager";
 import { typeCheckExpression } from "./loaderExtensions";
 import { manifestStartupModule } from "@/manifest/manifestStartupModule"
+import { Types } from '@/Types';
 
 
 
@@ -37,7 +38,7 @@ export class BlocksShell implements IBlocksShell {
         this.autoRegisterModule(manifestStartupModule);
 
 
-        let startupModules = this.iocManager.getAll(BlocksModule);
+        let startupModules = this.iocManager.getAll<BlocksModule>(Types.BlocksModule);
         this.blocksModules = startupModules;
         //
         let temp = new Map<string, []>();
@@ -115,7 +116,7 @@ export class BlocksShell implements IBlocksShell {
                     this.types.push(exportTypes[objKey]);
                 }
                 for (const checkExppression of typeCheckExpression) {
-                    let type = checkExppression(exportType);
+                    let type = checkExppression(exportType,fileKey);
                     if (type) {
                         this.typeMapFileName.set(type, [isModule, fileKey]);
                         this.types.push(type);
@@ -147,7 +148,7 @@ export class BlocksShell implements IBlocksShell {
         if (type.prototype instanceof BlocksModule) {
 
             this.iocManager.register((c: Container) => {
-                c.bind(BlocksModule).to(type).inTransientScope();
+                c.bind<BlocksModule>(Types.BlocksModule).to(type).inTransientScope();
                 decorateIfNoExist(injectable(), type);
             });
 

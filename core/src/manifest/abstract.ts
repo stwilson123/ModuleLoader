@@ -41,4 +41,8 @@ interface IResourceManager {
     getResource(moduleName:string,resourceType: string, resourceName: string):ResourceDefinition|undefined;
     buildResource(): void;
 }
-export { IManifestProvider, ResourceManifestBuilder, IResourceManager, ResourceDefinition }
+
+
+let getResourceKey = (resourceType: string, resourceName: string) =>
+resourceType + "-" + resourceName;
+export { IManifestProvider, ResourceManifestBuilder, IResourceManager, ResourceDefinition,getResourceKey }

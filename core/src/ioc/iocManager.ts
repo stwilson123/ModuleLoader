@@ -50,7 +50,10 @@ class IocManager
     {
         this.diConainter.unbindAll();
     }
-
+    public getContainer()
+    {
+        return this.diConainter;
+    }
 }
 type ServiceIdentifier<T> = (string | symbol | Newable<T> | Abstract<T> );
 

@@ -1,5 +1,8 @@
 import { Component as vueComponent, Watch, Prop, Vue } from 'vue-property-decorator';
 import { isPromise } from "./utility/helper";
+import { SpecialInject } from "./ioc/iocRegister";
+import { IResourceManager, Types, IBlocksShell, IRouteManager, getUniqueKey } from '@/index';
+import { typeCheckExpression } from "@blocks-framework/core";
 declare module 'vue/types/options' {
 
     interface ComponentOptions<V extends Vue> {
@@ -17,22 +20,34 @@ declare module 'vue/types/Vue' {
     }
 
 }
+
 @vueComponent({})
 class Controller extends Vue {
     constructor() {
-        super()
+        super();
+        //  this.resourceManager = null;
     }
-    @Prop({ type: String })
-    UniqueKey: string ="";
+    @Prop({ type: String, default: "" })
+    UniqueKey: string = "";
     viewWillEnterResult: any;
     viewDidEnterResult: any;
     viewAnimationEndTime: any;
+
+
+    @SpecialInject.lazyInject(Types.IResourceManager)
+    resourceManager: IResourceManager | undefined;
+
+    @SpecialInject.lazyInject(Types.IBlocksShell)
+    blocksShell: IBlocksShell | undefined;
+
+    @SpecialInject.lazyInject(Types.IRouteManager)
+    routeManager: IRouteManager | undefined;
+
     created() {
         this.$emit("beforeViewWillEnter", this);
         this.viewWillEnterResult = this.viewWillEnter();
         console.log("assign viewWillEnterResult")
-        if((typeof this.UniqueKey === "undefined" || this.UniqueKey === "")&& this.$route && this.$route.meta && this.$route.meta.uniqueKey)
-        {
+        if ((typeof this.UniqueKey === "undefined" || this.UniqueKey === "") && this.$route && this.$route.meta && this.$route.meta.uniqueKey) {
             this.UniqueKey = this.$route.meta.uniqueKey;
         }
     }
@@ -109,9 +124,12 @@ class Controller extends Vue {
     async switch(switchUniqueKey: any, switchParams: any) {
         if (typeof switchParams === undefined || switchParams === null || typeof switchUniqueKey === undefined || switchUniqueKey.uniqueKey === null)
             throw new Error("switchParams must contains uniqueKey.")
-        let routeManager = globalIocManager.get<IRouteManager>(Types.IRouteManager);
-        let uniqueKey = switchUniqueKey.moduleName ? RouteManager.getUniqueKey(switchUniqueKey.moduleName, switchUniqueKey.uniqueKey) :
-            RouteManager.getUniqueKey(this.getModuleName(), switchUniqueKey.uniqueKey)
+        let routeManager = this.routeManager;
+        if (routeManager === undefined)
+            throw new Error("routeManager is undefined.")
+
+        let uniqueKey = switchUniqueKey.moduleName ? getUniqueKey(switchUniqueKey.moduleName, switchUniqueKey.uniqueKey) :
+            getUniqueKey(this.getModuleName(), switchUniqueKey.uniqueKey)
         let route: any;
         for (let layoutRoutes of routeManager.getRoute()) {
             route = layoutRoutes.children.find((r: any) => r.uniqueKey === uniqueKey);
@@ -158,23 +176,35 @@ class Controller extends Vue {
         }
     }
     getModuleName() {
-        let shell = globalIocManager.get<IBlocksShell>(Types.IBlocksShell);
-        let moduleName = shell.typeMapModuleName.get(this.$options.type);
+        debugger
+        let shell = this.blocksShell;//globalIocManager.get<IBlocksShell>(Types.IBlocksShell);
+        if (shell === undefined)
+            throw new Error("shell is undefined.")
+        let moduleName = shell.typeMapModuleName.get(this.constructor);
         if (moduleName === undefined)
             throw new Error(this + " not belong to framework.")
         return moduleName;
     }
 
     getResources(moduleName: string, resourceType: string, resourceName: string) {
-        let resourceManager = globalIocManager.get<IResourceManager>(Types.IResourceManager);
-        let resourceDef = resourceManager.getResource(moduleName, resourceType, resourceName);
+        if (this.resourceManager === undefined)
+            throw new Error("resourceManager is undefined.")
+        let resourceDef = this.resourceManager.getResource(moduleName, resourceType, resourceName);
         if (resourceDef === undefined)
             throw new Error(`Can not found resourceType:${resourceType}, resourceName:${resourceName} in resources.`)
         return resourceDef.resource;
     }
 
-
-
 }
+
+
+typeCheckExpression.push((exportType: any, fileKey: string) => {
+    if (!fileKey.endsWith("bl"))
+        return;
+    return exportType;
+    // if (exportType.prototype instanceof Controller && exportType.options.type)
+    //     return exportType.options.type;
+
+})
 
 export { Controller }

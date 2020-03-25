@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "declaration": true,
     "declarationDir": "dist/types",
-    "declarationMap":true,
-    "downlevelIteration": true,
-    "module": "es2015",
+    "module": "esnext",
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
@@ -18,7 +16,6 @@
     "baseUrl": ".",
     "allowJs": true,
     "types": [
-      "node",
       "reflect-metadata"
     ],
     "outDir": "dist",
@@ -39,8 +36,8 @@
     "src/**/*.tsx",
     "test/**/*.ts",
     "test/**/*.tsx",
-  ],
-  "exclude": [
-    "node_modules"
   ]
+  // "exclude": [
+  //   "node_modules"
+  // ]
 }

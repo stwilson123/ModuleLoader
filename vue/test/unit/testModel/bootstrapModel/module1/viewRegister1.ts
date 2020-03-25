@@ -1,5 +1,5 @@
 import "./src/view1"
-import {  IDependency, IRouteProvider  } from "@/interface"
+import {  IDependency, IRouteProvider  } from "@/index"
 export class vieRegister1 extends IRouteProvider
 {
     public getRoutes(): any[] {

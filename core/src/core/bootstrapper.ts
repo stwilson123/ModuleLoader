@@ -52,7 +52,6 @@ class BlocksBoostrapper<T extends BlocksModule> extends IBootstrapper {
         this.iocManager.register((c: Container) => {
             c.bind(IocManager).toConstantValue(this.iocManager);
             c.bind<IBlocksShell>(Types.IBlocksShell).to(BlocksShell).inSingletonScope();
-            //c.bind<BlocksShell>(Types.IBlocksShell).to(BlocksShell).inSingletonScope();
 
             decorateIfNoExist(injectable(), IocManager);
             decorateIfNoExist(injectable(), BlocksShell);

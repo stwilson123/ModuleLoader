@@ -1,4 +1,4 @@
-import { IDependency } from "@/interface";
+import { IDependency } from "@/index";
 
 export default class view2 extends IDependency
 {

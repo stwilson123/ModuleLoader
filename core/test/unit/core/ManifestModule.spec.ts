@@ -1,15 +1,14 @@
 import { expect } from 'chai'
-import { describe } from "mocha";
+import { describe,it } from "mocha";
 import { /*globalIocManager,*/ IBootstrapper, Types, IBlocksShell, IocManager, BlocksModule } from "@/interface";
-import {  BlocksBoostrapper } from "@/index";
+import {  BlocksBoostrapper,getResourceKey } from "@/index";
 
 import module2View2 from "../testModel/manifestModel/module2/src/view2";
 import module1View2 from "../testModel/manifestModel/module1/src/view2";
 
 import { IResourceManager } from '@/manifest/abstract';
-import { resourceManager as defaultResourceManager } from "@/manifest/resourceManager";
-
-describe("manifestModule test", async () => {
+ 
+describe("manifestModule test", () => {
     // debugger
     let tsContext = require.context("../testModel/manifestModel/", true, /ts$/);
     let Bootstrapper = BlocksBoostrapper.create(undefined, (o) => o.iocManager = new IocManager());
@@ -18,10 +17,9 @@ describe("manifestModule test", async () => {
     Bootstrapper.initialize();
     let globalIocManager = Bootstrapper.iocManager;
     let shell = globalIocManager.get<IBlocksShell>(Types.IBlocksShell);
-
-
-
+   
     it("resourceManager get ", async () => {
+   
         let resourceManager = globalIocManager.get<IResourceManager>(Types.IResourceManager);
         let resources = resourceManager.getResources();
         expect(resources).lengthOf(1);
@@ -29,20 +27,19 @@ describe("manifestModule test", async () => {
         let moduleResource = resources.get("module1");
         expect(moduleResource).not.undefined;
         if (moduleResource) {
-            let resourceDef = moduleResource.get(defaultResourceManager.getResourceKey("component", "testResource"));
+            let resourceDef = moduleResource.get(getResourceKey("component", "testResource"));
             expect(resourceDef).not.undefined;
 
             if (resourceDef) {
                 let resourcePromise: Promise<any> = resourceDef.resource;
                 let resource = await resourcePromise;
                 expect(resource.default).equal(module2View2);
-
             }
         }
-
-
+       
     });
-
+  
+   
 
     // it("vue Controller can get resouces. ", async () => {
     //     let viewComponent1 = new module1View2();

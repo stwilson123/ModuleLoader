@@ -1,4 +1,4 @@
-import { IRouteProvider, RouteResult } from "@/interface";
+import { IRouteProvider, RouteResult } from "@/index";
 
 export class module2RouteProvider extends IRouteProvider {
     constructor() {
