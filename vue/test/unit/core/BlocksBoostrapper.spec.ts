@@ -16,7 +16,6 @@ import { testItFun } from "../../it";
 
 describe("bootstraptest", () => {
     let tsContext = require.context("../testModel/bootstrapModel/", true, /(((?<!bl)\.ts)|\.bl)$/);
-    debugger
     //globalIocManager.register((c) => c.bind<IBootstrapper>(Types.IBootstrapper).toConstantValue(Bootstrapper));
     // let Bootstrapper = BlocksBoostrapper. create(undefined, (o) => o.iocManager = new IocManager());
     Bootstrapper.PlugInSources.push(tsContext);

@@ -34,8 +34,9 @@ function _proxyGetter(
 
 function makePropertyInjectDecorator(containerFunc:() => interfaces.Container, doCache: boolean) {
     return function(serviceIdentifier: interfaces.ServiceIdentifier<any>) {
+        
         return function(proto: any, key: string): void {
-
+            
             let resolve = () => {
                 return containerFunc().get(serviceIdentifier);
             };

@@ -1,12 +1,15 @@
 import { Component as vueComponent, Watch, Prop, Vue } from 'vue-property-decorator';
 import { isPromise } from "./utility/helper";
-import { SpecialInject } from "./ioc/iocRegister";
+import { SpecialInject, InjectCore } from "./ioc/iocRegister";
 import { IResourceManager, Types, IBlocksShell, IRouteManager, getUniqueKey } from '@/index';
 import { typeCheckExpression } from "@blocks-framework/core";
+
+//import { lazyInject, } from "inversify-inject-decorators"
 declare module 'vue/types/options' {
 
     interface ComponentOptions<V extends Vue> {
-        type?: Object
+        type?: Object;
+        _Ctor?: Array<any>;
     }
 
 }
@@ -20,20 +23,20 @@ declare module 'vue/types/Vue' {
     }
 
 }
-
-@vueComponent({})
 class Controller extends Vue {
-    constructor() {
-        super();
-        //  this.resourceManager = null;
-    }
+    // constructor() {
+    //     super();
+    //     // if(!InjectCore.Conainter)
+    //     //     throw new Error("InjectCore.Conainter canot be null.")
+    //     // this.resourceManager = InjectCore.Conainter.get<IResourceManager>(Types.IResourceManager);
+    //     // this.blocksShell =  InjectCore.Conainter.get<IBlocksShell>(Types.IBlocksShell);
+    //     // this.routeManager =  InjectCore.Conainter.get<IRouteManager>(Types.IRouteManager);
+    // }
     @Prop({ type: String, default: "" })
     UniqueKey: string = "";
     viewWillEnterResult: any;
     viewDidEnterResult: any;
     viewAnimationEndTime: any;
-
-
     @SpecialInject.lazyInject(Types.IResourceManager)
     resourceManager: IResourceManager | undefined;
 
@@ -42,7 +45,6 @@ class Controller extends Vue {
 
     @SpecialInject.lazyInject(Types.IRouteManager)
     routeManager: IRouteManager | undefined;
-
     created() {
         this.$emit("beforeViewWillEnter", this);
         this.viewWillEnterResult = this.viewWillEnter();
@@ -132,6 +134,8 @@ class Controller extends Vue {
             getUniqueKey(this.getModuleName(), switchUniqueKey.uniqueKey)
         let route: any;
         for (let layoutRoutes of routeManager.getRoute()) {
+            if (layoutRoutes.children === undefined || layoutRoutes.children === null)
+                continue;
             route = layoutRoutes.children.find((r: any) => r.uniqueKey === uniqueKey);
             if (route)
                 break;
@@ -176,11 +180,14 @@ class Controller extends Vue {
         }
     }
     getModuleName() {
-        debugger
         let shell = this.blocksShell;//globalIocManager.get<IBlocksShell>(Types.IBlocksShell);
         if (shell === undefined)
             throw new Error("shell is undefined.")
-        let moduleName = shell.typeMapModuleName.get(this.constructor);
+        if (this.$options._Ctor === undefined)
+            throw new Error("$options._Ctor is undefined.")
+
+        //let moduleName = shell.typeMapModuleName.get(this.constructor);
+        let moduleName = shell.typeMapModuleName.get(this.$options._Ctor[0]);
         if (moduleName === undefined)
             throw new Error(this + " not belong to framework.")
         return moduleName;

@@ -50,7 +50,6 @@ describe("manifestModule test",  () => {
         let module1View2 = await module1View2Promise;
         let module2View2 = await module2View2Promise;
         
-        debugger
         let viewComponent1 = new module1View2.default();
        
         let resourcePromise: Promise<any> = viewComponent1.getResources("module1", "component", "testResource")
@@ -63,9 +62,6 @@ describe("manifestModule test",  () => {
         }
 
     });
-
-
-
-
+ 
 });
 
