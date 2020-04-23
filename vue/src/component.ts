@@ -25,8 +25,9 @@ let Component = (options: any) => {
 
 function ComponentFactory(oldComponentFactory: any, options: any) {
     if (typeof options === 'function') {
-        handleExtendController(options, options);
-        let com = oldComponentFactory(options);
+        let extendOptions = handleExtendController(options, {});
+        let comFun = oldComponentFactory(extendOptions);
+        let com = comFun(options);
         // com.options.type = options;
         return com;
     }
@@ -49,6 +50,7 @@ function handleExtendController(oldComponentFactory: any, options: any) {
             return;
         }
     });
+    return options;
 }
 
 

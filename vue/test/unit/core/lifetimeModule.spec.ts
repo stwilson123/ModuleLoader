@@ -22,38 +22,27 @@ describe("manifestModule test",  () => {
         let module1View1 = await module1View1Promise;
          
         let viewComponent1 = new module1View1.default({el:"id"});
-        debugger
-        viewComponent1.$mount();
+      
         expect(viewComponent1.testProperty ? true : false).be.true;
 
     });
 
 
 
-    it("vue Controller inoke wiewWillEnter when mounted", async () => {
+    it("vue Controller inoke viewDidEnter when mounted", async () => {
         //await BootstrapperInitStats;
         
         let View1 = await module1View1Promise;
 
         let viewComponent1 = new View1.default();
-       
-        viewComponent1.created();
-        expect(viewComponent1.lifetime === 1).be.true;
-
-
-        viewComponent1.mounted();
-        expect(viewComponent1.lifetime ===2 ).be.true;
-
+        debugger
+        viewComponent1.$mount();
+        expect(viewComponent1.lifetime === 2 ).be.true;
 
         let View2 = await module1View2Promise;
 
-        let viewComponent2 = new View1.default();
-       
-        viewComponent2.created();
-        expect(viewComponent2.lifetime === 1).be.true;
-
-
-        viewComponent2.mounted();
+        let viewComponent2 = new View2.default();
+        viewComponent2.$mount();
         expect(viewComponent2.lifetime ===2 ).be.true;
       
 
