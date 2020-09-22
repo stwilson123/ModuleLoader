@@ -1,4 +1,4 @@
-import { IDependency } from "@/core/abstract";
+import { IDependency } from "./../core/abstract";
 class IManifestProvider extends IDependency {
     buildManifests(builder: ResourceManifestBuilder) {
         throw new Error("buildManifests is not implemented.")

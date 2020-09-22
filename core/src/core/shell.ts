@@ -1,11 +1,11 @@
 import { IBlocksShell, IDependency, BlocksModule } from "./abstract"
 import { Container, injectable, decorate, inject } from "inversify";
-import { RouteStartupModule } from "@/routes/routeStartupModule"
-import { decorateIfNoExist } from "@/ioc/decorate";
-import { IocManager } from "@/ioc/iocManager";
+import { RouteStartupModule } from "./../routes/routeStartupModule"
+import { decorateIfNoExist } from "./../ioc/decorate";
+import { IocManager } from "./../ioc/iocManager";
 import { typeCheckExpression } from "./loaderExtensions";
-import { manifestStartupModule } from "@/manifest/manifestStartupModule"
-import { Types } from '@/Types';
+import { manifestStartupModule } from "./../manifest/manifestStartupModule"
+import { Types } from './../Types';
 
 
 

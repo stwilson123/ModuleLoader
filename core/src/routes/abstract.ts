@@ -1,4 +1,4 @@
-import { IDependency } from "@/core/abstract";
+import { IDependency } from "./../core/abstract";
 class IRouteProvider extends IDependency {
     getRoutes(): RouteResult[] {
         throw new Error("getRoutes is not implemented.")

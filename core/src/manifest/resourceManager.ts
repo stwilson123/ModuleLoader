@@ -1,7 +1,7 @@
 import { IResourceManager, ResourceDefinition, IManifestProvider, ResourceManifestBuilder,getResourceKey } from "./abstract";
-import { Types } from "@/Types";
-import { inject, multiInject } from "@/ioc/iocManager";
-import { IBlocksShell, } from "@/core/abstract";
+import { Types } from "./../Types";
+import { inject, multiInject } from "./../ioc/iocManager";
+import { IBlocksShell, } from "./../core/abstract";
 export class resourceManager implements IResourceManager {
  
     constructor(@inject(Types.IBlocksShell) blocksShell: IBlocksShell, @multiInject(Types.IManifestProvider) manifestProviders: IManifestProvider[]) {

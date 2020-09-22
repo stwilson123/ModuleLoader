@@ -1,6 +1,6 @@
 {
   "name": "@blocks-framework/vue",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "\"Base Vue, Modular, loose couplings framework.",
   "main": "dist/blocks-module-loader.min.js",
   "module": "dist/blocks-module-loader.esm.browser.min.js",

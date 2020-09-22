@@ -1,10 +1,10 @@
-import { Types } from "@/Types";
+import { Types } from "./../Types";
 import { IManifestProvider, IResourceManager } from "./abstract";
 import { resourceManager } from "./resourceManager";
 import { inject, injectable } from "../ioc/iocManager"
-import { decorateIfNoExist } from "@/ioc/decorate";
+import { decorateIfNoExist } from "./../ioc/decorate";
 import { Container } from "inversify";
-import { BlocksModule, IShell, } from "@/core/abstract";
+import { BlocksModule, IShell, } from "./../core/abstract";
 
 export class manifestStartupModule extends BlocksModule {
     @inject(Types.IBlocksShell)

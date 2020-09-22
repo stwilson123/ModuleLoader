@@ -1,7 +1,7 @@
 import { Component as vueComponent, Watch, Prop, Vue } from 'vue-property-decorator';
 import { isPromise } from "./utility/helper";
 import { SpecialInject, InjectCore } from "./ioc/iocRegister";
-import { IResourceManager, Types, IBlocksShell, IRouteManager, getUniqueKey } from '@/index';
+import { IResourceManager, Types, IBlocksShell, IRouteManager, getUniqueKey } from './index';
 import { typeCheckExpression } from "@blocks-framework/core";
 
 //import { lazyInject, } from "inversify-inject-decorators"

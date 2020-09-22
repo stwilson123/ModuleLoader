@@ -1,11 +1,11 @@
-import { Types } from "@/Types";
+import { Types } from "./../Types";
 import { IRouteProvider, ITemplateProvider, IRouteManager } from "./abstract"
 import { IocManager, inject, injectable } from '@/ioc/iocManager';
 import { Container } from "inversify";
-import { BlocksModule, IShell, } from "@/core/abstract";
-import DefaultRouteManager from "@/routes/RouteManager"
+import { BlocksModule, IShell, } from "./../core/abstract";
+import DefaultRouteManager from "./../routes/RouteManager"
 
-import { decorateIfNoExist } from "@/ioc/decorate";
+import { decorateIfNoExist } from "./../ioc/decorate";
 export class RouteStartupModule extends BlocksModule {
     @inject(Types.IBlocksShell)
     shell?: IShell;

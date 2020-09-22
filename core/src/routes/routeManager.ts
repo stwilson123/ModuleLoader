@@ -1,7 +1,7 @@
 import { IRouteManager, IRouteProvider, ITemplateProvider, layoutRouteChild, RouteResult, TemplateResult } from "@/routes/abstract";
 import { IocManager, inject, injectable } from '@/ioc/iocManager';
-import { IShell } from '@/core/abstract';
-import { Types } from '@/Types';
+import { IShell } from './../core/abstract';
+import { Types } from './../Types';
 export default class RouteManager implements IRouteManager {
     private iocManager: IocManager;
    

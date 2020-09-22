@@ -4,7 +4,7 @@ import { IocManager, BlocksModule, Types, IDependency, IBootstrapper, IBlocksShe
 import { BlocksShell } from "./shell";
 import { IRouteManager } from "../routes/abstract";
 import { decorateIfNoExist  } from "../ioc/decorate";
-import { Types as globalTypes } from "@/Types";
+import { Types as globalTypes } from "./../Types";
 class BlocksBoostrapper<T extends BlocksModule> extends IBootstrapper {
     //temp 
     public iocManager: IocManager;

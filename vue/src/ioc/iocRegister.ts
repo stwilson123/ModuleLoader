@@ -1,4 +1,3 @@
-//import { Bootstrapper } from "@blocks-framework/core";
 import getDecorators from "./index";
 import { Container } from 'inversify';
  

@@ -1,7 +1,7 @@
 
 import { injectable, inject } from "inversify"
-import { IocManager } from "@/ioc/iocManager";
-import { Types } from "@/Types";
+import { IocManager } from "./../ioc/iocManager";
+
 // let _win: any = window;
 // let globalIocManager: IocManager = _win["globalIocManager"] || new IocManager();
 // _win["globalIocManager"] = globalIocManager;

@@ -1,10 +1,10 @@
 {
   "name": "@blocks-framework/core",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Modular, loose couplings framework.",
   "main": "dist/blocks-module-loader.min.js",
   "module": "dist/blocks-module-loader.esm.browser.min.js",
-  "typings": "dist/types/src/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "dev:esm": "rollup -w -c scripts/config.js --environment TARGET:web-full-esm-browser",
     "prod:esm": "rollup -w -c scripts/config.js --environment TARGET:web-full-esm-browser-prod ",
