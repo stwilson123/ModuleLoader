@@ -29,8 +29,8 @@ class TemplateResult {
     layout?: string;
     name?: string;
     path?: string;
-    component: any | string;
-    components?: any[];
+    component?: any | string;
+    components?: any;
     children?: RouteResult[];
 
 }

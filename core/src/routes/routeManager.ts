@@ -4,8 +4,8 @@ import { IShell } from './../core/abstract';
 import { Types } from './../Types';
 export default class RouteManager implements IRouteManager {
     private iocManager: IocManager;
-   
-    public static getUniqueKey = (moduleName:String|undefined,uniqueKey:String):string =>   uniqueKey + "_" + moduleName;
+
+    public static getUniqueKey = (moduleName: String | undefined, uniqueKey: String): string => uniqueKey + "_" + moduleName;
 
     constructor(@inject(IocManager) IocManager: IocManager) {
         this.iocManager = IocManager;
@@ -42,13 +42,14 @@ export default class RouteManager implements IRouteManager {
         let templateProviders = this.iocManager.isRegistered(Types.ITemplateProvider) ? this.iocManager.getAll<ITemplateProvider>(Types.ITemplateProvider) : [];
         if (!this.iocManager.isRegistered(Types.IRouteProvider))
             return routeObj;
+        let layoutRouteChilds: layoutRouteChild = {};
         for (let routeProvider of this.iocManager.getAll<IRouteProvider>(Types.IRouteProvider)) {
             let moduleName = this.iocManager.get<IShell>(Types.IBlocksShell)
                 .typeMapModuleName.get(routeProvider.constructor);
             let routes = routeProvider.getRoutes();
             if (!routes || !Array.isArray(routes))
                 continue;
-            let layoutRouteChilds: layoutRouteChild = {};
+
             for (const route of routes) {
 
                 route.path = moduleName + "/" + route.path;
@@ -57,17 +58,21 @@ export default class RouteManager implements IRouteManager {
                     route.meta = Object.assign(true, route.meta, { uniqueKey: route.uniqueKey });
                 }
                 if (route.layout) {
-                    layoutRouteChilds[route.layout] = layoutRouteChilds[route.layout] ? layoutRouteChilds[route.layout] : new RouteResult();
                     let tempRoute = layoutRouteChilds[route.layout];
-                    for (const templateProvider of templateProviders) {
-                        let template = templateProvider.getTemplate().find((t: TemplateResult) => t.name === route.layout);
-                        if (template) {
-                            tempRoute = Object.assign(tempRoute, template);
-                            route.name = route.name ? route.name : route.uniqueKey;
-                            tempRoute.children.push(route);
-                            break;
+                    if(tempRoute === undefined)
+                    {
+                        for (const templateProvider of templateProviders) {
+                            let template = templateProvider.getTemplate().find((t: TemplateResult) => t.name === route.layout);
+                            if (template) {
+                                tempRoute = Object.assign(new RouteResult(), template);
+                                break;
+                            }
                         }
                     }
+                    layoutRouteChilds[route.layout] = tempRoute;
+                   
+                    route.name = route.name ? route.name : route.uniqueKey;
+                    tempRoute.children.push(route);
                     if (tempRoute.children.length < 1)
                         routeObj.push(route);
                     continue;
@@ -76,14 +81,13 @@ export default class RouteManager implements IRouteManager {
                     route.path = "/" + route.path;
                 routeObj.push(route);
             }
-            for (let layoutRouteKey in layoutRouteChilds) {
-                if (layoutRouteChilds.hasOwnProperty(layoutRouteKey)) {
-                    const tempRoute = layoutRouteChilds[layoutRouteKey];
-                    routeObj.push(Object.assign({}, tempRoute));
-                }
+
+        }
+        for (let layoutRouteKey in layoutRouteChilds) {
+            if (layoutRouteChilds.hasOwnProperty(layoutRouteKey)) {
+                const tempRoute = layoutRouteChilds[layoutRouteKey];
+                routeObj.push(Object.assign({}, tempRoute));
             }
-
-
         }
         return routeObj;
 

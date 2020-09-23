@@ -4,7 +4,7 @@
   "description": "\"Base Vue, Modular, loose couplings framework.",
   "main": "dist/blocks-module-loader.min.js",
   "module": "dist/blocks-module-loader.esm.browser.min.js",
-  "typings": "dist/types/src/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "directories": {
     "test": "test"
   },
