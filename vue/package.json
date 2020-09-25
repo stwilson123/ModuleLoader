@@ -1,6 +1,6 @@
 {
   "name": "@blocks-framework/vue",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "\"Base Vue, Modular, loose couplings framework.",
   "main": "dist/blocks-module-loader.min.js",
   "module": "dist/blocks-module-loader.esm.browser.min.js",
@@ -18,7 +18,7 @@
     "test:debug": "karma start test/unit/karma.unit.config.js --browsers chromeDebug"
   },
   "dependencies": {
-    "@blocks-framework/core": "^0.0.10",
+    "@blocks-framework/core": "^0.0.11",
     "await-to-js": "^2.1.1",
     "inversify-inject-decorators": "^3.1.0",
     "vue": "^2.6.11",
